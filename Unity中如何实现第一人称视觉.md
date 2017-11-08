@@ -15,5 +15,82 @@
 
 所以我们一般是通过在摄像头的脚本上保留一份角色的Transform的引用，在Update中通过获取Transform的Position和Rotation以更新摄像头的Position和Rotation，以此实现第一人称视觉。
 
+先创建两个脚本，分别是PersonController.cs和CameraController.cs。
+
+```C#
+public class PersonController : MonoBehaviour {
+  
+  public CameraController cameraControl;
+  
+  private Animator animator;
+  private Vector2 input;
+  private float speed;
+  
+  void Start() {
+    animator = GetComponent<Animator>();
+    cameraControl.BindTargetObject(transform);
+  }
+  
+  void Update(){
+    MovePerson();
+  }
+  
+  void MovePerson() {
+    input.x = Input.GetAxis("Horizontal");
+    input.y = Input.GetAxis("Vertical");
+  	
+    // 左右转向
+    if (input.x > 0) {
+      transform.rotation = Quaternion.AngleAxis(90, Vector3.up);
+    } else if (input.x < 0) {
+      transform.rotation = Quaternion.AngleAxis(-90, Vector3.up);
+    }
+    
+    // 后转
+    if (input.y < 0 ) {
+      transform.rotation = Quaternion.AngleAxis(180, Vector3.up);
+    }
+    
+    // 向前行走
+    speed = Mathf.Abs(input.x) + Mathf.Abs(input.y);
+    speed = Mathf.Clamp(speed, 0f, 1f);
+    animator.SetFloat("InputVertical", speed, 0.1f, Time.deltaTime);
+  }
+  
+}
+```
+
+
+
+CameraController.cs
+
+```C#
+public class CameraController : MonoBehaviour {
+  
+  private Transform targetObject;
+  
+  public void BindTargetObject (Transform transform) {
+    if (transform == null) return;
+    this.targetObject = transform;
+  }
+  
+  void Update() {
+      ChangeCameraStatus();
+  }
+  
+  private void ChangeCameraStatus() {
+    transform.localPosition = new Vector3(targetObject.position.x, targetObject.position.y, targetObject.position.z);
+  }
+}
+```
+
+
+
+
+
+
+
+
+
 
 
