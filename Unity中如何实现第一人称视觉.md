@@ -84,7 +84,7 @@ public class CameraController : MonoBehaviour {
 }
 ```
 
-
+然后将这PersonController.cs挂载到场景中的人物上，CameraController.cs挂载到场景中的摄像头上。
 
 
 
