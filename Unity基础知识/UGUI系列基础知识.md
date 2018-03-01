@@ -1,4 +1,6 @@
-## UGUI系列基础知识
+##UGUI系列基础知识
+
+###与NGUI的比较
 
 #### UGUI的Atlas和NGUI的Atlas的区别
 
@@ -34,7 +36,15 @@ UIPanel.LateUpdate的优化在于对UIPanel的布局，原则如下：
 
 
 
+### 自适应相关
 
+Canvas部件，在属性Render Mode中有三个选项
+
+- Screen Space - Overlay： 此模式不需要UI摄像机，UI将永远出现在所有摄像机的最前面，但这样就不能再该UI前放个特效或UI了。
+- Screen Space - Camera：基本和NGUI的原理一样
+- World Space：这个就是完全3D的UI了
+
+每个相机都有深度选项，这个属性对应渲染顺序，深度值越大，显示就越靠前，可以通过设置这个值和相机的显示范围实现多相机显示。
 
 
 
